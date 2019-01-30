@@ -5,7 +5,7 @@ const request = require('request');
 // Local requests
 const DBLPPerson = require('./dblp-person.js');
 
-class DBLPRequest {
+class DBLP {
   constructor() {
     this.nameBaseURL = 'https://dblp.org/pers/xx/';
     this.pidBaseURL = 'http://dblp.org/pid/';
@@ -18,7 +18,7 @@ class DBLPRequest {
       const xml = `${last.charAt(0).toLowerCase()}/${last}:${first}.xml`;
       const url = this.nameBaseURL + xml;
 
-      DBLPRequest.get(url).then((result) => {
+      DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
         reject(error);
@@ -26,9 +26,31 @@ class DBLPRequest {
     });
   }
 
-  /* getByPID(pid) {
+  getByPID(pid) {
+    return new Promise((resolve, reject) => {
+      const url = `${this.pidBaseURL}/${pid}.xml`;
 
-  } */
+      DBLP.get(url).then((result) => {
+        resolve(result);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
+
+  getByHomepage(homepage) {
+    return new Promise((resolve, reject) => {
+      const splitHomepage = homepage.split('/');
+      const pid = `${splitHomepage[1]}/${splitHomepage[2]}`;
+      const url = `${this.pidBaseURL}/${pid}.xml`;
+
+      DBLP.get(url).then((result) => {
+        resolve(result);
+      }, (error) => {
+        reject(error);
+      });
+    });
+  }
 
   static get(url) {
     return new Promise((resolve, reject) => {
@@ -58,4 +80,4 @@ class DBLPRequest {
   }
 }
 
-module.exports = DBLPRequest;
+module.exports = DBLP;
