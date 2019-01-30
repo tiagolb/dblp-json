@@ -1,2 +1,2 @@
 # dblp-json
-A service for parsing DBLP XML pages to JSON
+A service for parsing DBLP user pages to JSON
