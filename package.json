@@ -1,0 +1,36 @@
+{
+  "name": "dblp-json",
+  "version": "1.0.0",
+  "description": "A service for parsing DBLP user pages to JSON",
+  "main": "dblp-json.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiagolb/dblp-json.git"
+  },
+  "keywords": [
+    "dblp",
+    "json",
+    "academic",
+    "computer",
+    "science"
+  ],
+  "author": "Tiago Brito",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiagolb/dblp-json/issues"
+  },
+  "homepage": "https://github.com/tiagolb/dblp-json#readme",
+  "dependencies": {
+    "request": "^2.88.0",
+    "util": "^0.11.1",
+    "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
+  }
+}
