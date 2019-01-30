@@ -6,14 +6,14 @@ function printJS(jsObject) {
 
 
 const dblp = new DBLP();
-/*dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
-  printJS(dblpperson.getJSON());
-}, (error) => {
-  printJS(error);
-});*/
-
-dblp.getByHomepage('homepages/07/967-1').then((dblpperson) => {
+dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
   printJS(dblpperson.getJSON());
 }, (error) => {
   printJS(error);
 });
+
+/*dblp.getByHomepage('homepages/07/967-1').then((dblpperson) => {
+  printJS(dblpperson.getJSON());
+}, (error) => {
+  printJS(error);
+});*/
