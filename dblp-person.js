@@ -1,5 +1,14 @@
 // Necessary requirements
 const util = require('util');
+const Joi = require('joi');
+
+const rawJSONSchema = Joi.object().keys({
+  dblpperson: Joi.object().keys({
+    person: Joi.object().required(),
+    r: Joi.array().required(),
+    coauthors: Joi.object().required(),
+  })
+});
 
 /**
  * DBLPPerson class
@@ -20,6 +29,10 @@ class DBLPPerson {
   constructor(rawJSON) {
     // Keep the rawJSON object from the parser
     this.rawJSON = rawJSON;
+
+    Joi.validate(this.rawJSON, rawJSONSchema, (err, value) => {
+      console.log(value);
+    });
 
     // Check if the JSON has the necessary dblpperson property
     const rawJSONHasDblpPerson = Object.prototype.hasOwnProperty.call(rawJSON, 'dblpperson');
