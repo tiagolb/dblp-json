@@ -7,7 +7,7 @@ function printJS(jsObject) {
 const dblp = new DBLP();
 dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
   try {
-    printJS(dblpperson.getRawJSON());
+    printJS(dblpperson.getJSON());
   } catch (e) {
     console.error(e);
   }

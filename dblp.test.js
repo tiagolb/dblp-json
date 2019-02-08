@@ -64,7 +64,7 @@ describe('Testing DBLPPerson constructor', () => {
   test('Checking for the dblpperson property', () => {
     return expect(() => {
       new DBLPPerson({});
-    }).toThrow();
+    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
   });
 
   test('Checking for the person property', () => {
@@ -73,7 +73,7 @@ describe('Testing DBLPPerson constructor', () => {
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow();
+    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
   });
 
   test('Checking for the r property', () => {
@@ -84,7 +84,7 @@ describe('Testing DBLPPerson constructor', () => {
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow();
+    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
   });
 
   test('Checking for the coauthors property', () => {
@@ -96,7 +96,7 @@ describe('Testing DBLPPerson constructor', () => {
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow();
+    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
   });
 
   test('Checking a valid input', () => {

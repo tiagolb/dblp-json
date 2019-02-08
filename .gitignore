@@ -62,3 +62,6 @@ typings/
 
 # eslint configuration file
 .eslintrc.js
+
+# files
+tiagobrito.json

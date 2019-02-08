@@ -1,14 +1,6 @@
 // Necessary requirements
 const util = require('util');
-const Joi = require('joi');
-
-const rawJSONSchema = Joi.object().keys({
-  dblpperson: Joi.object().keys({
-    person: Joi.object().required(),
-    r: Joi.array().required(),
-    coauthors: Joi.object().required(),
-  })
-});
+const validDBLPSchema = require('./dblp-schema.js');
 
 /**
  * DBLPPerson class
@@ -30,41 +22,15 @@ class DBLPPerson {
     // Keep the rawJSON object from the parser
     this.rawJSON = rawJSON;
 
-    Joi.validate(this.rawJSON, rawJSONSchema, (err, value) => {
-      console.log(value);
-    });
-
-    // Check if the JSON has the necessary dblpperson property
-    const rawJSONHasDblpPerson = Object.prototype.hasOwnProperty.call(rawJSON, 'dblpperson');
-    if (rawJSONHasDblpPerson) {
+    
+    // if the object is according to the defined schema
+    if (validDBLPSchema(this.rawJSON)) {
       this.dblpperson = rawJSON.dblpperson;
-
-      // Check if the dblp person object has the person property
-      const dblppersonHasPerson = Object.prototype.hasOwnProperty.call(this.dblpperson, 'person');
-      if (dblppersonHasPerson) {
-        // Get only the first element in case of a list
-        this.person = DBLPPerson.getFirstElement(this.dblpperson.person);
-      } else {
-        throw new ReferenceError('[DBLPPerson constructor] dblpperson object has no person property.');
-      }
-
-      // Chec if the dblp person object has the r property
-      const dblppersonHasR = Object.prototype.hasOwnProperty.call(this.dblpperson, 'r');
-      if (dblppersonHasR) {
-        this.r = this.dblpperson.r;
-      } else {
-        throw new ReferenceError('[DBLPPerson constructor] dblpperson object has no r property.');
-      }
-
-      // Check if the dblp person object has the coauthors property
-      const dblppersonHasCoauthors = Object.prototype.hasOwnProperty.call(this.dblpperson, 'coauthors');
-      if (dblppersonHasCoauthors) {
-        this.coauthors = this.dblpperson.coauthors;
-      } else {
-        throw new ReferenceError('[DBLPPerson constructor] dblpperson has no coauthors property.');
-      }
+      this.person = DBLPPerson.getFirstElement(this.dblpperson.person);
+      this.r = this.dblpperson.r;
+      this.coauthors = this.dblpperson.coauthors;
     } else {
-      throw new ReferenceError('[DBLPPerson constructor] The JSON has no dblpperson property.');
+      throw new Error('[DBLPPerson constructor] Received JSON Schema unknown.');
     }
   }
 

@@ -42,7 +42,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(new Error('[DBLP getByHomepage] Bad request - check requested name.'));
+        reject(new Error('[DBLP getByName] Bad request - check requested name.'));
       });
     });
   }
@@ -62,7 +62,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(new Error('[DBLP getByHomepage] Bad request - check requested PID.'));
+        reject(new Error('[DBLP getByPID] Bad request - check requested PID.'));
       });
     });
   }
