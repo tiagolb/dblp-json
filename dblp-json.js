@@ -4,20 +4,22 @@ function printJS(jsObject) {
   console.log(JSON.stringify(jsObject, null, 2));
 }
 
-
-const dblp = new DBLP();
+/*const dblp = new DBLP();
 dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
   try {
     printJS(dblpperson.getJSON());
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 }, (error) => {
-  printJS(error);
+  console.error(error);
 });
+*/
 
-/* dblp.getByHomepage('homepages/07/967-1').then((dblpperson) => {
+const url = 'https://dblp.org/pers/xx/b/Tiago:Brito.xml';
+DBLP.get(url).then((dblpperson) => {
+  console.log('here');
   printJS(dblpperson.getJSON());
 }, (error) => {
-  printJS(error);
-}); */
+  console.error(error);
+});

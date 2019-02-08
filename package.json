@@ -4,7 +4,7 @@
   "description": "A service for parsing DBLP user pages to JSON",
   "main": "dblp-json.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --detectOpenHandles --collectCoverage"
   },
   "repository": {
     "type": "git",

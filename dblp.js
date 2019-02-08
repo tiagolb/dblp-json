@@ -42,7 +42,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(error);
+        reject(new Error('[DBLP getByHomepage] Bad request - check requested name.'));
       });
     });
   }
@@ -62,7 +62,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(error);
+        reject(new Error('[DBLP getByHomepage] Bad request - check requested PID.'));
       });
     });
   }
@@ -86,7 +86,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(error);
+        reject(new Error('[DBLP getByHomepage] Bad request - check requested homepage.'));
       });
     });
   }
@@ -98,10 +98,9 @@ class DBLP {
    */
   static get(url) {
     return new Promise((resolve, reject) => {
-      // Get XML data
       request(url, (requestError, response, body) => {
         // Check response status code
-        if (response.statusCode === 200) {
+        if (response && response.statusCode === 200) {
           // Set options for the XML parser
           const options = {
             charkey: '$value',
@@ -123,7 +122,7 @@ class DBLP {
             }
           });
         } else {
-          reject(requestError);
+          reject(new Error('[DBLP get] Bad request - check requested URI.'));
         }
       });
     });
