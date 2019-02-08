@@ -7,13 +7,17 @@ function printJS(jsObject) {
 
 const dblp = new DBLP();
 dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
-  printJS(dblpperson.getJSON());
+  try {
+    printJS(dblpperson.getJSON());
+  } catch (e) {
+    console.log(e);
+  }
 }, (error) => {
   printJS(error);
 });
 
-/*dblp.getByHomepage('homepages/07/967-1').then((dblpperson) => {
+/* dblp.getByHomepage('homepages/07/967-1').then((dblpperson) => {
   printJS(dblpperson.getJSON());
 }, (error) => {
   printJS(error);
-});*/
+}); */

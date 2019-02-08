@@ -114,9 +114,13 @@ class DBLP {
 
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
-            // Create a DBLPPerson object from the raw json
-            const dblpp = new DBLPPerson(xml);
-            resolve(dblpp);
+            try {
+              // Create a DBLPPerson object from the raw json
+              const dblpp = new DBLPPerson(xml);
+              resolve(dblpp);
+            } catch (e) {
+              reject(e);
+            }
           });
         } else {
           reject(requestError);
