@@ -4,7 +4,7 @@ function printJS(jsObject) {
   console.log(JSON.stringify(jsObject, null, 2));
 }
 
-/*const dblp = new DBLP();
+const dblp = new DBLP();
 dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
   try {
     printJS(dblpperson.getJSON());
@@ -14,12 +14,11 @@ dblp.getByName('Tiago', 'Brito').then((dblpperson) => {
 }, (error) => {
   console.error(error);
 });
-*/
 
-const url = 'https://dblp.org/pers/xx/b/Tiago:Brito.xml';
+/*const url = 'https://dblp.org/pers/xx/b/Tiago:Brito.xml';
 DBLP.get(url).then((dblpperson) => {
   console.log('here');
   printJS(dblpperson.getJSON());
 }, (error) => {
   console.error(error);
-});
+});*/

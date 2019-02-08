@@ -125,7 +125,7 @@ class DBLPPerson {
     // Check if name has not been set so far
     // This should never happen
     if (!nameSet) {
-      throw new Error('[getPerson] Person object has no name property.');
+      throw new Error('[getPerson] Person object has no name/author property.');
     }
 
     // Return the person object

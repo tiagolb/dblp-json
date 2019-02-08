@@ -57,8 +57,61 @@ describe('Checking DBLP functions with invalid input', () => {
   });
 });
 
-
 // Check DBLPPerson functions
+
+describe('Testing DBLPPerson constructor', () => {
+
+  test('Checking for the dblpperson property', () => {
+    return expect(() => {
+      new DBLPPerson({});
+    }).toThrow();
+  });
+
+  test('Checking for the person property', () => {
+    const testingObject = {
+      dblpperson: {}
+    };
+    return expect(() => {
+      new DBLPPerson(testingObject);
+    }).toThrow();
+  });
+
+  test('Checking for the r property', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {}
+      }
+    };
+    return expect(() => {
+      new DBLPPerson(testingObject);
+    }).toThrow();
+  });
+
+  test('Checking for the coauthors property', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {},
+        r: []
+      }
+    };
+    return expect(() => {
+      new DBLPPerson(testingObject);
+    }).toThrow();
+  });
+
+  test('Checking a valid input', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {},
+        r: [],
+        coauthors: {}
+      }
+    };
+    const person = new DBLPPerson(testingObject); 
+    return expect(person).toBeInstanceOf(DBLPPerson);
+  });
+});
+
 describe('Testing getFirstElement in DBLPPerson', () => {
   test('Testing with a list', () => {
     const testingList = [0, 1, 2, 3, 4];
@@ -77,8 +130,44 @@ describe('Testing getFirstElement in DBLPPerson', () => {
     const element = DBLPPerson.getFirstElement(testingString); 
     return expect(element).toBe(testingString);
   });
-  
+
   test('Testing with null', () => {
     return expect(DBLPPerson.getFirstElement(null)).toBe(null);
   });
+});
+
+describe('Testing getPerson in DBLPPerson', () => {
+  
+  test('Checking for the name/author properties', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {},
+        r: [],
+        coauthors: {}
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    return expect(() => {
+      person.getPerson();
+    }).toThrow('[getPerson] Person object has no name/author property.');
+  });
+
+  test('Checking for the author property', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          author: 'Tiago'
+        },
+        r: [],
+        coauthors: {}
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const author = person.getPerson();
+    return expect(author.name).toBe('Tiago');
+  });
+
+
 });
