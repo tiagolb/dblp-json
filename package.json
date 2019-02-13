@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/tiagolb/dblp-json#readme",
   "dependencies": {
+    "joi": "^14.3.1",
     "request": "^2.88.0",
     "util": "^0.11.1",
     "xml2js": "^0.4.19"

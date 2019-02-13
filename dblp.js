@@ -42,7 +42,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(new Error('[DBLP getByHomepage] Bad request - check requested name.'));
+        reject(new Error('[DBLP getByName] Bad request - check requested user name.'));
       });
     });
   }
@@ -62,7 +62,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(new Error('[DBLP getByHomepage] Bad request - check requested PID.'));
+        reject(new Error('[DBLP getByPID] Bad request - check requested PID.'));
       });
     });
   }
@@ -114,6 +114,7 @@ class DBLP {
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
             try {
+              //console.log(JSON.stringify(xml, null, 2));
               // Create a DBLPPerson object from the raw json
               const dblpp = new DBLPPerson(xml);
               resolve(dblpp);
