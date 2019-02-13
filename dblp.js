@@ -42,7 +42,7 @@ class DBLP {
       DBLP.get(url).then((result) => {
         resolve(result);
       }, (error) => {
-        reject(error);
+        reject(new Error('[DBLP getByName] Bad request - check requested user name.'));
       });
     });
   }

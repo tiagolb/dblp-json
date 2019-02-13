@@ -49,6 +49,11 @@ class DBLPPerson {
    * @return {object}
    */
   getPerson() {
+    // Check if dblpperson object is set
+    if (!this.dblpperson) {
+      throw new ReferenceError('[DBLPPerson getPerson] DBLPPerson object is not set.');
+    }
+
     // Object that will hold the person data to return
     const person = {};
 
@@ -76,7 +81,7 @@ class DBLPPerson {
       const nPublications = this.r.length;
       person['n-publications'] = nPublications.toString();
     } else {
-      throw new ReferenceError('[getPerson] R object is not set.');
+      throw new ReferenceError('[DBLPPerson getPerson] R object is not set.');
     }
 
     // Check if the person object is set
@@ -98,13 +103,13 @@ class DBLPPerson {
         }
       });
     } else {
-      throw new ReferenceError('[getPerson] Person object is not set.');
+      throw new ReferenceError('[DBLPPerson getPerson] Person object is not set.');
     }
 
     // Check if name has not been set so far
     // This should never happen
     if (!nameSet) {
-      throw new Error('[getPerson] Person object has no name/author property.');
+      throw new Error('[DBLPPerson getPerson] Person object has no name/author property.');
     }
 
     // Return the person object
@@ -204,10 +209,12 @@ class DBLPPerson {
             const na = DBLPPerson.getFirstElement(co[i].na);
             // Push the coauthor data to the coauthor list
             coauthorList.push(na);
+          } else {
+            throw new ReferenceError('[DBLPPerson getCoauthors] co object has no na property.');
           }
         });
       } else {
-        throw new ReferenceError('[getCoauthors] Coauthor object has no co property.');
+        throw new ReferenceError('[DBLPPerson getCoauthors] Coauthor object has no co property.');
       }
 
       // Check if the dblp coauthors object has the n property
@@ -216,7 +223,11 @@ class DBLPPerson {
       if (coauthorsHasN) {
         // Set the number of coauthors as the same as the value
         // of this property
-        coauthors.n = this.coauthors.n;
+        if (this.coauthors.n != coauthorList.length.toString()) {
+          coauthors.n = coauthorList.length.toString();
+        } else {
+          coauthors.n = this.coauthors.n;
+        }
       } else {
         // Set the number of coauthors as the number of
         // coauthors in the coauthors list
@@ -227,7 +238,7 @@ class DBLPPerson {
       // which might be empty if there are no coauthors
       coauthors.co = coauthorList;
     } else {
-      throw new ReferenceError('[getCoauthors] Coauthors property not set.');
+      throw new ReferenceError('[DBLPPerson getCoauthors] Coauthors property not set.');
     }
 
     // Return the coauthors object
@@ -243,14 +254,18 @@ class DBLPPerson {
     // Object that will hold the important data to return
     const returnObj = {};
 
-    // Get person data
-    returnObj.person = this.getPerson();
+    try {
+      // Get person data
+      returnObj.person = this.getPerson();
 
-    // Get publications data
-    returnObj.publications = this.getPublications();
+      // Get publications data
+      returnObj.publications = this.getPublications();
 
-    // Get coauthors data
-    returnObj.coauthors = this.getCoauthors();
+      // Get coauthors data
+      returnObj.coauthors = this.getCoauthors();
+    } catch (e) {
+      throw new Error('[DBLPPerson getJSON] - Unconsistent objects error.');
+    }
 
     // Return the object
     return returnObj;

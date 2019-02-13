@@ -103,7 +103,7 @@ const rSchema = Joi.array().items(
 const coSchema = Joi.object().keys({
   c: Joi.any(),
   n: Joi.any(),
-  na: Joi.array().single(),
+  na: Joi.array().single().required(),
 }).required();
 
 /**
