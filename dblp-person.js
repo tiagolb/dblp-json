@@ -22,15 +22,15 @@ class DBLPPerson {
     // Keep the rawJSON object from the parser
     this.rawJSON = rawJSON;
 
-    
     // if the object is according to the defined schema
-    if (validDBLPSchema(this.rawJSON)) {
+    const validation = validDBLPSchema(this.rawJSON); 
+    if (validation.error === null) {
       this.dblpperson = rawJSON.dblpperson;
       this.person = DBLPPerson.getFirstElement(this.dblpperson.person);
       this.r = this.dblpperson.r;
       this.coauthors = this.dblpperson.coauthors;
     } else {
-      throw new Error('[DBLPPerson constructor] Received JSON Schema unknown.');
+      throw new Error(`[DBLPPerson constructor] Schema error - ${validation.error}`);
     }
   }
 
@@ -140,7 +140,7 @@ class DBLPPerson {
         Object.keys(pub).forEach((pubKey) => {
           // Create a new property in the publication
           // object that hold the type of the publication
-          publication.type = pubKey;
+          publication['type'] = pubKey;
 
           // Get the object that holds the actual publication
           // data (aka paper/book/etc)
@@ -166,7 +166,7 @@ class DBLPPerson {
       // publications from that dblp person
       publications.pubs = pubs;
     } else {
-      throw new ReferenceError('[getPublications] R object is not set.');
+      throw new ReferenceError('[DBLPPerson getPublications] R object is not set.');
     }
 
     // Return the publications object

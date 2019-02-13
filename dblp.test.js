@@ -4,7 +4,6 @@ const DBLPPerson = require('./dblp-person.js');
 // Check instance of every get return in DBLP
 
 describe('Checking DBLP function return instances', () => {
-
   test('Checking instance of DBLP.get return', async () => {
     const url = 'https://dblp.org/pers/xx/b/Brito:Tiago.xml';
     const data = await DBLP.get(url);
@@ -60,11 +59,10 @@ describe('Checking DBLP functions with invalid input', () => {
 // Check DBLPPerson functions
 
 describe('Testing DBLPPerson constructor', () => {
-
   test('Checking for the dblpperson property', () => {
     return expect(() => {
       new DBLPPerson({});
-    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
+    }).toThrow('[DBLPPerson constructor] Schema error');
   });
 
   test('Checking for the person property', () => {
@@ -73,38 +71,85 @@ describe('Testing DBLPPerson constructor', () => {
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
+    }).toThrow('[DBLPPerson constructor] Schema error');
   });
 
   test('Checking for the r property', () => {
     const testingObject = {
       dblpperson: {
-        person: {}
+        person: {
+          key: "key",
+        },
+        coauthors: {},
       }
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
+    }).toThrow('[DBLPPerson constructor] Schema error');
+  });
+
+  test('Checking for the r property with empty array', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+        },
+        r: [],
+        coauthors: {},
+      }
+    };
+    return expect(() => {
+      new DBLPPerson(testingObject);
+    }).toThrow('[DBLPPerson constructor] Schema error');
+  });
+
+  test('Checking for the r property with invalid array', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+        },
+        r: [
+          {},
+        ],
+        coauthors: {},
+      }
+    };
+    return expect(() => {
+      new DBLPPerson(testingObject);
+    }).toThrow('[DBLPPerson constructor] Schema error');
   });
 
   test('Checking for the coauthors property', () => {
     const testingObject = {
       dblpperson: {
-        person: {},
-        r: []
+        person: {
+          key: "key",
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
       }
     };
     return expect(() => {
       new DBLPPerson(testingObject);
-    }).toThrow('[DBLPPerson constructor] Received JSON Schema unknown.');
+    }).toThrow('[DBLPPerson constructor] Schema error');
   });
 
   test('Checking a valid input', () => {
     const testingObject = {
       dblpperson: {
-        person: {},
-        r: [],
-        coauthors: {}
+        person: {
+          key: "key",
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
       }
     };
     const person = new DBLPPerson(testingObject); 
@@ -137,13 +182,18 @@ describe('Testing getFirstElement in DBLPPerson', () => {
 });
 
 describe('Testing getPerson in DBLPPerson', () => {
-  
-  test('Checking for the name/author properties', () => {
+  test('Checking without name/author properties', () => {
     const testingObject = {
       dblpperson: {
-        person: {},
-        r: [],
-        coauthors: {}
+        person: {
+          key: "key",
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
       }
     };
 
@@ -153,14 +203,19 @@ describe('Testing getPerson in DBLPPerson', () => {
     }).toThrow('[getPerson] Person object has no name/author property.');
   });
 
-  test('Checking for the author property', () => {
+  test('Checking for the name property', () => {
     const testingObject = {
       dblpperson: {
+        name: "Tiago",
         person: {
-          author: 'Tiago'
+          key: "key",
         },
-        r: [],
-        coauthors: {}
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
       }
     };
 
@@ -169,5 +224,288 @@ describe('Testing getPerson in DBLPPerson', () => {
     return expect(author.name).toBe('Tiago');
   });
 
+  test('Checking for the author property', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: 'Tiago'
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const author = person.getPerson();
+    return expect(author.name).toBe('Tiago');
+  });
+
+  test('Checking with both the name and author properties', () => {
+    const testingObject = {
+      dblpperson: {
+        name: 'Tiago',
+        person: {
+          key: "key",
+          author: 'IgnoredName'
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const author = person.getPerson();
+    return expect(author.name).toBe('Tiago');
+  });
+
+
+  test('Checking for the n property', () => {
+    const publications = "5";
+    const testingObject = {
+      dblpperson: {
+        n: publications,
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const author = person.getPerson();
+    return expect(author['n-publications']).toBe(publications);
+  });
+
+  test('Checking without the n property', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const author = person.getPerson();
+    return expect(author['n-publications']).toBe("5");
+  });
+
+});
+
+describe('Testing getPublications in DBLPPerson', () => {
+  test('Checking correct publication number in property n', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const publications = person.getPublications();
+    return expect(publications['n']).toBe("5");
+  });
+
+  test('Checking correct publication number by length', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    const publications = person.getPublications();
+    return expect(publications['pubs'].length).toBe(5);
+  });
+
+  test('Checking correct function output', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            inproceedings: {
+              key: "conf/srds/BritoD016",
+              author: [
+                "Tiago Brito",
+                "Nuno O. Duarte",
+                {
+                  "$value": "Nuno Santos 0001",
+                  "orcid": "0000-0001-9938-0653"
+                }
+              ],
+              title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+              pages: "37-42",
+              year: "2016",
+              booktitle: "SRDS Workshop",
+              url: "db/conf/srds/srds2016w.html#BritoD016"
+            }
+          },
+          {
+            inproceedings: {
+              key: "conf/secrypt/BarradasBD0R17",
+              author: [
+                "Diogo Barradas",
+                "Tiago Brito",
+                "David Duarte",
+                "Nuno Santos 0001",
+                "Luís Rodrigues"
+              ],
+              title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+              pages: "43-54",
+              year: "2017",
+              booktitle: "SECRYPT",
+              url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+            }
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const validPubs = {
+      n: "2",
+      pubs: [
+        {
+          type: "inproceedings",
+          key: "conf/srds/BritoD016",
+          author: [
+            "Tiago Brito",
+            "Nuno O. Duarte",
+            {
+              "$value": "Nuno Santos 0001",
+              "orcid": "0000-0001-9938-0653"
+            }
+          ],
+          title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+          pages: "37-42",
+          year: "2016",
+          booktitle: "SRDS Workshop",
+          url: "db/conf/srds/srds2016w.html#BritoD016"
+        },
+        {
+          type: "inproceedings",
+          key: "conf/secrypt/BarradasBD0R17",
+          author: [
+            "Diogo Barradas",
+            "Tiago Brito",
+            "David Duarte",
+            "Nuno Santos 0001",
+            "Luís Rodrigues"
+          ],
+          title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+          pages: "43-54",
+          year: "2017",
+          booktitle: "SECRYPT",
+          url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+        },
+      ]
+    }
+
+    const person = new DBLPPerson(testingObject);
+    const publications = person.getPublications();
+    return expect(publications).toMatchObject(validPubs);
+  });
+
+  test('Checking without r object', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            article: {}
+          },
+        ],
+        coauthors: {},
+      }
+    };
+
+    const person = new DBLPPerson(testingObject);
+    person.r = undefined;
+    return expect(() => {
+      person.getPublications();
+    }).toThrow('[DBLPPerson getPublications] R object is not set.');
+  });
 
 });
