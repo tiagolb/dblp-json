@@ -2,7 +2,7 @@
   "name": "dblp-json",
   "version": "1.0.0",
   "description": "A service for parsing DBLP user pages to JSON",
-  "main": "dblp-json.js",
+  "main": "dblp.js",
   "scripts": {
     "test": "jest --detectOpenHandles --collectCoverage"
   },
