@@ -14,13 +14,27 @@ dblp-json started from the necessity of accessing dblp data from within node app
 
 It has an easy to use API that allows users to request dblp information for published computer science authors/researchers.
 
+### Requiring the package
+
+To use dblp-json just require the package like so:
+
+```js 
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+// some dblp-json functions called
+```
+
+Then you can use the package as explained next.
+
 ### Requesting data
 
 There are three ways for requesting information from dblp using dblp-json:
 
-* by name
-* by PID
-* by homepage
+* getByName
+* getByPID
+* getByHomepage
 
 #### getByName
 
@@ -186,3 +200,7 @@ async function extractInfo() {
 extractInfo();
 
 ```
+
+### Code examples
+
+Within the `examples/` folder there are several examples corresponding to the API calls showed here.
