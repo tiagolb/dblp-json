@@ -31,14 +31,158 @@ const DBLP = require('dblp-json/dblp');
 
 const dblp = new DBLP();
 
-function extractInfo() async {
-  const tiago-json = await dblp.getByName('Tiago', 'Brito');
-  console.log(JSON.stringify(tiago-json, null, 2));
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
 }
 
 extractInfo();
 
 ```
 
+Note: Some researchers may have their surname appended by some numbers to uniquely identify researchers with the same name. For example, if there were two researchers named *Tiago Brito*, then you could have *Tiago Brito_0001* and *Tiago Brito_0002*.
 
+#### getByPID
 
+*getByPID* requires the PID of the researcher according to dblp (e.g. '188/5658').
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByPID('188/5658');
+}
+
+extractInfo();
+
+```
+
+#### getByHomepage
+
+*getByHomepage* requires the key of the researcher according to dblp (e.g. 'homepages/188/5658').
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByHomepage('homepages/188/5658');
+}
+
+extractInfo();
+
+```
+
+### Parsing information
+
+After requesting the information using the functions above, there are several functions that parse the dblp data:
+
+* getRawJSON
+* getJSON
+* getPerson
+* getPublications
+* getCoauthors
+
+#### Parsing options applied
+
+dblp-json leverages `xml2js` to parse XML data from dblp to JSON format. The parsing options used are as follows:
+
+```js
+const options = {
+  charkey: '$value',
+  mergeAttrs: true,
+  explicitArray: false,
+};
+```
+
+#### getRawJSON
+
+*getRawJSON* returns a JSON object after parsing dblp with `xml2js` parser (without modification/standardization).
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
+  console.log(JSON.stringify(tiago_json.getRawJSON(), null, 2));
+}
+
+extractInfo();
+
+```
+
+#### getJSON
+
+*getJSON* returns a JSON object after modification.
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
+  console.log(JSON.stringify(tiago_json.getJSON(), null, 2));
+}
+
+extractInfo();
+
+```
+
+#### getPerson
+
+*getPerson* returns a JSON object with personal information about the researcher.
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
+  console.log(JSON.stringify(tiago_json.getPerson(), null, 2));
+}
+
+extractInfo();
+
+```
+
+#### getPublications
+
+*getPublications* returns a JSON object with a list of publications by the researcher.
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
+  console.log(JSON.stringify(tiago_json.getPublications(), null, 2));
+}
+
+extractInfo();
+
+```
+
+#### getCoauthors
+
+*getCoauthors* returns a JSON object with all co-authors of all publications by the researcher.
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+async function extractInfo() {
+  const tiago_json = await dblp.getByName('Tiago', 'Brito');
+  console.log(JSON.stringify(tiago_json.getCoauthors(), null, 2));
+}
+
+extractInfo();
+
+```
