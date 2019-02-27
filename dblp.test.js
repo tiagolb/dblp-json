@@ -4,9 +4,24 @@ const DBLPPerson = require('./dblp-person.js');
 // Check instance of every get return in DBLP
 
 describe('Checking DBLP function return instances', () => {
-  test('Checking instance of DBLP.get return', async () => {
+  test('Checking instance of DBLP.get return without charkey option', async () => {
     const url = 'https://dblp.org/pers/xx/b/Brito:Tiago.xml';
-    const data = await DBLP.get(url);
+    const options = {
+      mergeAttrs: true,
+      explicitArray: false,
+    };
+    const data = await DBLP.get(url, options);
+    return expect(data).toBeInstanceOf(DBLPPerson);
+  });
+
+  test('Checking instance of DBLP.get return with default charkey option', async () => {
+    const url = 'https://dblp.org/pers/xx/b/Brito:Tiago.xml';
+    const options = {
+      charkey: '$value',
+      mergeAttrs: true,
+      explicitArray: false,
+    };
+    const data = await DBLP.get(url, options);
     return expect(data).toBeInstanceOf(DBLPPerson);
   });
 

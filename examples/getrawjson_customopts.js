@@ -6,6 +6,8 @@ function printJS(jsObject) {
 
 const dblp = new DBLP();
 
+dblp.setCharkey('_value');
+
 async function extractInfo() {
   const tiagoJson = await dblp.getByName('Tiago', 'Brito');
   printJS(tiagoJson.getRawJSON());

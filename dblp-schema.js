@@ -91,8 +91,8 @@ const rSchema = Joi.array().items(
     'masterthesis',
     'www',
     'person',
-    'data'
-  ).required()
+    'data',
+  ).required(),
 ).required();
 
 

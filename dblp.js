@@ -21,6 +21,11 @@ class DBLP {
   constructor() {
     this.nameBaseURL = 'https://dblp.org/pers/xx/';
     this.pidBaseURL = 'http://dblp.org/pid/';
+    this.options = {
+      charkey: '$value',
+      mergeAttrs: true,
+      explicitArray: false,
+    };
   }
 
   /**
@@ -39,7 +44,7 @@ class DBLP {
       const url = this.nameBaseURL + xml;
 
       // Get the data in the url
-      DBLP.get(url).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByName] Bad request - check requested user name.'));
@@ -59,7 +64,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByPID] Bad request - check requested PID.'));
@@ -83,7 +88,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByHomepage] Bad request - check requested homepage.'));
@@ -96,27 +101,13 @@ class DBLP {
    * @param  {string} url The url that points to the XML file
    * @return {object} DBLPPerson object
    */
-  static get(url) {
+  static get(url, parseOptions) {
     return new Promise((resolve, reject) => {
       request(url, (requestError, response, body) => {
         // Check response status code
         if (response && response.statusCode === 200) {
-          let options;
-
-          // Check if parsing options were set
-          if (!this.options) {
-            // Set options for the XML parser
-            options = {
-              charkey: '$value',
-              mergeAttrs: true,
-              explicitArray: false,
-            };
-          } else {
-            ({ options } = this.options);
-          }
-
           // Create parser instance
-          const parser = new xml2js.Parser(options);
+          const parser = new xml2js.Parser(parseOptions);
 
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
@@ -136,11 +127,12 @@ class DBLP {
   }
 
   /**
-   * Function that lets developers set parsing options for xml2js
-   * @param  {object} parseOptions xml2js parsing options
+   * Function that lets developers set charkey option for xml2js
+   * @param  {string} charkey xml2js charkey option
    */
-  setParsingOptions(options) {
-    this.options = options;
+  setCharkey(charkey) {
+    delete this.options.charkey;
+    this.options.charkey = charkey;
   }
 }
 

@@ -26,6 +26,29 @@ const dblp = new DBLP();
 // some dblp-json functions called
 ```
 
+### Using custom parsing options
+
+There is an option for allowing you to set custom parsing options.
+After creating a new DBLP instance set the options like you would in [xml2js]() parser.
+
+Check the example bellow (which actually corresponds to the default options set in dblp-json):
+
+```js
+const DBLP = require('dblp-json/dblp');
+
+const dblp = new DBLP();
+
+const options = {
+  charkey: '$value',
+  mergeAttrs: true,
+  explicitArray: false,
+};
+
+dblp.setParsingOptions(options)
+
+// some dblp-json functions called
+```
+
 Then you can use the package as explained next.
 
 ### Requesting data
