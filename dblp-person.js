@@ -23,7 +23,7 @@ class DBLPPerson {
     this.rawJSON = rawJSON;
 
     // if the object is according to the defined schema
-    const validation = validDBLPSchema(this.rawJSON); 
+    const validation = validDBLPSchema(this.rawJSON);
     if (validation.error === null) {
       this.dblpperson = rawJSON.dblpperson;
       this.person = DBLPPerson.getFirstElement(this.dblpperson.person);
@@ -145,7 +145,7 @@ class DBLPPerson {
         Object.keys(pub).forEach((pubKey) => {
           // Create a new property in the publication
           // object that hold the type of the publication
-          publication['type'] = pubKey;
+          publication.type = pubKey;
 
           // Get the object that holds the actual publication
           // data (aka paper/book/etc)
@@ -223,7 +223,7 @@ class DBLPPerson {
       if (coauthorsHasN) {
         // Set the number of coauthors as the same as the value
         // of this property
-        if (this.coauthors.n != coauthorList.length.toString()) {
+        if (this.coauthors.n !== coauthorList.length.toString()) {
           coauthors.n = coauthorList.length.toString();
         } else {
           coauthors.n = this.coauthors.n;

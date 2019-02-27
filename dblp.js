@@ -41,7 +41,7 @@ class DBLP {
       // Get the data in the url
       DBLP.get(url).then((result) => {
         resolve(result);
-      }, (error) => {
+      }, () => {
         reject(new Error('[DBLP getByName] Bad request - check requested user name.'));
       });
     });
@@ -61,7 +61,7 @@ class DBLP {
       // Get the data in the url
       DBLP.get(url).then((result) => {
         resolve(result);
-      }, (error) => {
+      }, () => {
         reject(new Error('[DBLP getByPID] Bad request - check requested PID.'));
       });
     });
@@ -85,7 +85,7 @@ class DBLP {
       // Get the data in the url
       DBLP.get(url).then((result) => {
         resolve(result);
-      }, (error) => {
+      }, () => {
         reject(new Error('[DBLP getByHomepage] Bad request - check requested homepage.'));
       });
     });
@@ -101,12 +101,19 @@ class DBLP {
       request(url, (requestError, response, body) => {
         // Check response status code
         if (response && response.statusCode === 200) {
-          // Set options for the XML parser
-          const options = {
-            charkey: '$value',
-            mergeAttrs: true,
-            explicitArray: false,
-          };
+          let options;
+
+          // Check if parsing options were set
+          if (!this.options) {
+            // Set options for the XML parser
+            options = {
+              charkey: '$value',
+              mergeAttrs: true,
+              explicitArray: false,
+            };
+          } else {
+            ({ options } = this.options);
+          }
 
           // Create parser instance
           const parser = new xml2js.Parser(options);
@@ -114,7 +121,6 @@ class DBLP {
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
             try {
-              //console.log(JSON.stringify(xml, null, 2));
               // Create a DBLPPerson object from the raw json
               const dblpp = new DBLPPerson(xml);
               resolve(dblpp);
@@ -127,6 +133,14 @@ class DBLP {
         }
       });
     });
+  }
+
+  /**
+   * Function that lets developers set parsing options for xml2js
+   * @param  {object} parseOptions xml2js parsing options
+   */
+  setParsingOptions(options) {
+    this.options = options;
   }
 }
 
