@@ -28,8 +28,8 @@ const dblp = new DBLP();
 
 ### Using custom parsing options
 
-There is an option for allowing you to set custom parsing options.
-After creating a new DBLP instance set the options like you would in [xml2js]() parser.
+There is an option for allowing you to set a custom charkey.
+After creating a new DBLP instance set the charkey value for the parser parser.
 
 Check the example bellow (which actually corresponds to the default options set in dblp-json):
 
@@ -38,13 +38,7 @@ const DBLP = require('dblp-json/dblp');
 
 const dblp = new DBLP();
 
-const options = {
-  charkey: '$value',
-  mergeAttrs: true,
-  explicitArray: false,
-};
-
-dblp.setParsingOptions(options)
+dblp.setCharkey('_value');
 
 // some dblp-json functions called
 ```
