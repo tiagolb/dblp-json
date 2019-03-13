@@ -10,6 +10,7 @@ dblp.setCharkey('_value');
 dblp.setDropKeys('inproceedings', ['ee', 'crossref']);
 dblp.setKeyTranslation('inproceedings', {
   booktitle: 'event',
+  type: 'template',
 });
 
 async function extractInfo() {

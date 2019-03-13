@@ -145,13 +145,10 @@ class DBLPPerson {
         // dblp represents the type of publication
         // There should only be one key in this obect
         Object.keys(pub).forEach((pubKey) => {
-          // Create a new property in the publication
-          // object that hold the type of the publication
-          publication.type = pubKey;
-
           // Get the object that holds the actual publication
           // data (aka paper/book/etc)
           const paper = pub[pubKey];
+          paper.type = pubKey;
 
           // Iterate over every key in the paper object
           // and check which keys to drop
