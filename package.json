@@ -1,6 +1,6 @@
 {
   "name": "dblp-json",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A service for parsing DBLP user pages to JSON",
   "main": "dblp.js",
   "scripts": {
