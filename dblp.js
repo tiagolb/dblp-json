@@ -26,6 +26,8 @@ class DBLP {
       mergeAttrs: true,
       explicitArray: false,
     };
+    this.dropKeys = null;
+    this.keyTranslation = null;
   }
 
   /**
@@ -44,7 +46,7 @@ class DBLP {
       const url = this.nameBaseURL + xml;
 
       // Get the data in the url
-      DBLP.get(url, this.options).then((result) => {
+      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByName] Bad request - check requested user name.'));
@@ -64,7 +66,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url, this.options).then((result) => {
+      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByPID] Bad request - check requested PID.'));
@@ -88,7 +90,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url, this.options).then((result) => {
+      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error('[DBLP getByHomepage] Bad request - check requested homepage.'));
@@ -101,7 +103,7 @@ class DBLP {
    * @param  {string} url The url that points to the XML file
    * @return {object} DBLPPerson object
    */
-  static get(url, parseOptions) {
+  static get(url, parseOptions, dropKeys, keyTranslation) {
     return new Promise((resolve, reject) => {
       request(url, (requestError, response, body) => {
         // Check response status code
@@ -113,7 +115,7 @@ class DBLP {
           parser.parseString(body, (parseError, xml) => {
             try {
               // Create a DBLPPerson object from the raw json
-              const dblpp = new DBLPPerson(xml);
+              const dblpp = new DBLPPerson(xml, dropKeys, keyTranslation);
               resolve(dblpp);
             } catch (e) {
               reject(e);
@@ -133,6 +135,30 @@ class DBLP {
   setCharkey(charkey) {
     delete this.options.charkey;
     this.options.charkey = charkey;
+  }
+
+  /**
+   * Function that lets developers set some keys to be dropped before return
+   * @param  {string} type
+   * @param  {list} keyList List of keys (strings) to drop
+   */
+  setDropKeys(type, keyList) {
+    if (!this.dropKeys) {
+      this.dropKeys = {};
+    }
+    this.dropKeys[type] = keyList;
+  }
+
+  /**
+   * Function that lets developers set some keys to be dropped before return
+   * @param  {string} type
+   * @param  {object} keyTranslationObject Object of map between old key to new key name
+   */
+  setKeyTranslation(type, keyTranslationObject) {
+    if (!this.keyTranslation) {
+      this.keyTranslation = {};
+    }
+    this.keyTranslation[type] = keyTranslationObject;
   }
 }
 
