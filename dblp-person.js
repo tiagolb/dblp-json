@@ -154,7 +154,9 @@ class DBLPPerson {
           // and check which keys to drop
           Object.keys(paper).forEach((paperKey) => {
             // Check if dropKey list and keyTranslation object exists
-            if (this.dropKeys && this.dropKeys[pubKey].indexOf(paperKey) > -1) {
+            if (this.dropKeys &&
+                this.dropKeys[pubKey] &&
+                this.dropKeys[pubKey].indexOf(paperKey) > -1) {
               delete paper[paperKey];
             }
           });
