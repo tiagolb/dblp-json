@@ -853,9 +853,7 @@ describe('Testing getPublications in DBLPPerson', () => {
     };
 
     const keyTranslation = {
-      inproceedings: {
-        booktitle: 'event',
-      },
+      booktitle: 'event',
     };
     const person = new DBLPPerson(testingObject, null, keyTranslation);
     const publications = person.getPublications();
@@ -950,9 +948,7 @@ describe('Testing getPublications in DBLPPerson', () => {
     };
 
     const keyTranslation = {
-      inproceedings: {
-        note: 'note2',
-      },
+      note: 'note2',
     };
     const person = new DBLPPerson(testingObject, null, keyTranslation);
     const publications = person.getPublications();
@@ -1048,9 +1044,7 @@ describe('Testing getPublications in DBLPPerson', () => {
       inproceedings: ['key'],
     };
     const keyTranslation = {
-      inproceedings: {
-        booktitle: 'event',
-      },
+      booktitle: 'event',
     };
     const person = new DBLPPerson(testingObject, dropKeys, keyTranslation);
     const publications = person.getPublications();

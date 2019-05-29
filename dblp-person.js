@@ -168,10 +168,10 @@ class DBLPPerson {
             const oldKey = paperKey;
             let newKey = paperKey;
             // Check if key needs translation
-            if (this.keyTranslation && this.keyTranslation[pubKey]) {
-              const translations = Object.keys(this.keyTranslation[pubKey]);
+            if (this.keyTranslation) {
+              const translations = Object.keys(this.keyTranslation);
               if (translations && translations.indexOf(paperKey) > -1) {
-                newKey = this.keyTranslation[pubKey][paperKey];
+                newKey = this.keyTranslation[paperKey];
               }
             }
             publication[newKey] = paper[oldKey];

@@ -156,11 +156,11 @@ class DBLP {
    * @param  {string} type
    * @param  {object} keyTranslationObject Object of map between old key to new key name
    */
-  setKeyTranslation(type, keyTranslationObject) {
+  setKeyTranslation(keyTranslationObject) {
     if (!this.keyTranslation) {
       this.keyTranslation = {};
     }
-    this.keyTranslation[type] = keyTranslationObject;
+    this.keyTranslation = keyTranslationObject;
   }
 }
 
