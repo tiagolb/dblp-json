@@ -22,7 +22,7 @@ class DBLP {
     this.nameBaseURL = 'https://dblp.org/pers/xx/';
     this.pidBaseURL = 'http://dblp.org/pid';
     this.options = {
-      charkey: '$value',
+      charkey: '_value',
       mergeAttrs: true,
       explicitArray: false,
     };
@@ -114,10 +114,12 @@ class DBLP {
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
             try {
+              console.log(JSON.stringify(xml, null, 2));
               // Create a DBLPPerson object from the raw json
               const dblpp = new DBLPPerson(xml, dropKeys, keyTranslation);
               resolve(dblpp);
             } catch (e) {
+              console.error(e);
               reject(e);
             }
           });
@@ -132,10 +134,10 @@ class DBLP {
    * Function that lets developers set charkey option for xml2js
    * @param  {string} charkey xml2js charkey option
    */
-  setCharkey(charkey) {
-    delete this.options.charkey;
-    this.options.charkey = charkey;
-  }
+  // setCharkey(charkey) {
+  //   delete this.options.charkey;
+  //   this.options.charkey = charkey;
+  // }
 
   /**
    * Function that lets developers set some keys to be dropped before return

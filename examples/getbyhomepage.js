@@ -7,8 +7,8 @@ function printJS(jsObject) {
 const dblp = new DBLP();
 
 async function extractInfo() {
-  const tiago_json = await dblp.getByHomepage('homepages/188/5658');
-  printJS(tiago_json.getJSON());
+  const tiagoJson = await dblp.getByHomepage('homepages/188/5658');
+  printJS(tiagoJson.getJSON());
 }
 
 extractInfo();

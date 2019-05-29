@@ -8,7 +8,7 @@ const Joi = require('joi');
 const genericSchema = [
   Joi.string(),
   Joi.object().keys({
-    $value: Joi.string(),
+    _value: Joi.string(),
     aux: Joi.any(),
     label: Joi.any(),
     type: Joi.any(),

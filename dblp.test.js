@@ -17,7 +17,7 @@ describe('Checking DBLP function return instances', () => {
   test('Checking instance of DBLP.get return with default charkey option', async () => {
     const url = 'https://dblp.org/pers/xx/b/Brito:Tiago.xml';
     const options = {
-      charkey: '$value',
+      charkey: '_value',
       mergeAttrs: true,
       explicitArray: false,
     };
@@ -500,7 +500,7 @@ describe('Testing getPublications in DBLPPerson', () => {
                 "Tiago Brito",
                 "Nuno O. Duarte",
                 {
-                  "$value": "Nuno Santos 0001",
+                  "_value": "Nuno Santos 0001",
                   "orcid": "0000-0001-9938-0653"
                 }
               ],
@@ -543,7 +543,7 @@ describe('Testing getPublications in DBLPPerson', () => {
             "Tiago Brito",
             "Nuno O. Duarte",
             {
-              "$value": "Nuno Santos 0001",
+              "_value": "Nuno Santos 0001",
               "orcid": "0000-0001-9938-0653"
             },
           ],
@@ -592,7 +592,7 @@ describe('Testing getPublications in DBLPPerson', () => {
                 "Tiago Brito",
                 "Nuno O. Duarte",
                 {
-                  "$value": "Nuno Santos 0001",
+                  "_value": "Nuno Santos 0001",
                   "orcid": "0000-0001-9938-0653"
                 }
               ],
@@ -634,7 +634,7 @@ describe('Testing getPublications in DBLPPerson', () => {
             "Tiago Brito",
             "Nuno O. Duarte",
             {
-              "$value": "Nuno Santos 0001",
+              "_value": "Nuno Santos 0001",
               "orcid": "0000-0001-9938-0653"
             },
           ],
@@ -670,7 +670,7 @@ describe('Testing getPublications in DBLPPerson', () => {
     return expect(publications).toMatchObject(validPubs);
   });
 
-  test('Checking with keyTranslation', () => {
+  test('Checking with dropKey list without mentioned key', () => {
     const testingObject = {
       dblpperson: {
         person: {
@@ -685,7 +685,7 @@ describe('Testing getPublications in DBLPPerson', () => {
                 "Tiago Brito",
                 "Nuno O. Duarte",
                 {
-                  "$value": "Nuno Santos 0001",
+                  "_value": "Nuno Santos 0001",
                   "orcid": "0000-0001-9938-0653"
                 }
               ],
@@ -728,7 +728,102 @@ describe('Testing getPublications in DBLPPerson', () => {
             "Tiago Brito",
             "Nuno O. Duarte",
             {
-              "$value": "Nuno Santos 0001",
+              "_value": "Nuno Santos 0001",
+              "orcid": "0000-0001-9938-0653"
+            },
+          ],
+          title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+          pages: "37-42",
+          year: "2016",
+          booktitle: "SRDS Workshop",
+          url: "db/conf/srds/srds2016w.html#BritoD016"
+        },
+        {
+          type: "inproceedings",
+          key: "conf/secrypt/BarradasBD0R17",
+          author: [
+            "Diogo Barradas",
+            "Tiago Brito",
+            "David Duarte",
+            "Nuno Santos 0001",
+            "Luís Rodrigues"
+          ],
+          title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+          pages: "43-54",
+          year: "2017",
+          booktitle: "SECRYPT",
+          url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+        },
+      ],
+    };
+
+    const dropKey = {
+      inproceedings: ['note'],
+    };
+    const person = new DBLPPerson(testingObject, dropKey);
+    const publications = person.getPublications();
+    return expect(publications).toMatchObject(validPubs);
+  });
+
+  test('Checking with keyTranslation', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            inproceedings: {
+              key: "conf/srds/BritoD016",
+              author: [
+                "Tiago Brito",
+                "Nuno O. Duarte",
+                {
+                  "_value": "Nuno Santos 0001",
+                  "orcid": "0000-0001-9938-0653"
+                }
+              ],
+              title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+              pages: "37-42",
+              year: "2016",
+              booktitle: "SRDS Workshop",
+              url: "db/conf/srds/srds2016w.html#BritoD016"
+            },
+          },
+          {
+            inproceedings: {
+              key: "conf/secrypt/BarradasBD0R17",
+              author: [
+                "Diogo Barradas",
+                "Tiago Brito",
+                "David Duarte",
+                "Nuno Santos 0001",
+                "Luís Rodrigues"
+              ],
+              title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+              pages: "43-54",
+              year: "2017",
+              booktitle: "SECRYPT",
+              url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+            },
+          },
+        ],
+        coauthors: {},
+      },
+    };
+
+    const validPubs = {
+      n: "2",
+      pubs: [
+        {
+          type: "inproceedings",
+          key: "conf/srds/BritoD016",
+          author: [
+            "Tiago Brito",
+            "Nuno O. Duarte",
+            {
+              "_value": "Nuno Santos 0001",
               "orcid": "0000-0001-9938-0653"
             },
           ],
@@ -767,6 +862,103 @@ describe('Testing getPublications in DBLPPerson', () => {
     return expect(publications).toMatchObject(validPubs);
   });
 
+  test('Checking with keyTranslation without mentioned key', () => {
+    const testingObject = {
+      dblpperson: {
+        person: {
+          key: "key",
+          author: "Tiago",
+        },
+        r: [
+          {
+            inproceedings: {
+              key: "conf/srds/BritoD016",
+              author: [
+                "Tiago Brito",
+                "Nuno O. Duarte",
+                {
+                  "_value": "Nuno Santos 0001",
+                  "orcid": "0000-0001-9938-0653"
+                }
+              ],
+              title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+              pages: "37-42",
+              year: "2016",
+              booktitle: "SRDS Workshop",
+              url: "db/conf/srds/srds2016w.html#BritoD016"
+            },
+          },
+          {
+            inproceedings: {
+              key: "conf/secrypt/BarradasBD0R17",
+              author: [
+                "Diogo Barradas",
+                "Tiago Brito",
+                "David Duarte",
+                "Nuno Santos 0001",
+                "Luís Rodrigues"
+              ],
+              title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+              pages: "43-54",
+              year: "2017",
+              booktitle: "SECRYPT",
+              url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+            },
+          },
+        ],
+        coauthors: {},
+      },
+    };
+
+    const validPubs = {
+      n: "2",
+      pubs: [
+        {
+          type: "inproceedings",
+          key: "conf/srds/BritoD016",
+          author: [
+            "Tiago Brito",
+            "Nuno O. Duarte",
+            {
+              "_value": "Nuno Santos 0001",
+              "orcid": "0000-0001-9938-0653"
+            },
+          ],
+          title: "ARM TrustZone for Secure Image Processing on the Cloud.",
+          pages: "37-42",
+          year: "2016",
+          booktitle: "SRDS Workshop",
+          url: "db/conf/srds/srds2016w.html#BritoD016"
+        },
+        {
+          type: "inproceedings",
+          key: "conf/secrypt/BarradasBD0R17",
+          author: [
+            "Diogo Barradas",
+            "Tiago Brito",
+            "David Duarte",
+            "Nuno Santos 0001",
+            "Luís Rodrigues"
+          ],
+          title: "Forensic Analysis of Communication Records of Web-based Messaging Applications from Physical Memory.",
+          pages: "43-54",
+          year: "2017",
+          booktitle: "SECRYPT",
+          url: "db/conf/secrypt/secrypt2017.html#BarradasBD0R17"
+        },
+      ],
+    };
+
+    const keyTranslation = {
+      inproceedings: {
+        note: 'note2',
+      },
+    };
+    const person = new DBLPPerson(testingObject, null, keyTranslation);
+    const publications = person.getPublications();
+    return expect(publications).toMatchObject(validPubs);
+  });
+
   test('Checking with both dropKeys and keyTranslation', () => {
     const testingObject = {
       dblpperson: {
@@ -782,7 +974,7 @@ describe('Testing getPublications in DBLPPerson', () => {
                 "Tiago Brito",
                 "Nuno O. Duarte",
                 {
-                  "$value": "Nuno Santos 0001",
+                  "_value": "Nuno Santos 0001",
                   "orcid": "0000-0001-9938-0653"
                 }
               ],
@@ -824,7 +1016,7 @@ describe('Testing getPublications in DBLPPerson', () => {
             "Tiago Brito",
             "Nuno O. Duarte",
             {
-              "$value": "Nuno Santos 0001",
+              "_value": "Nuno Santos 0001",
               "orcid": "0000-0001-9938-0653"
             },
           ],
