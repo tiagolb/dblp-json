@@ -77,7 +77,7 @@ const rSchema = Joi.array().items(
     book: Joi.object(),
     incollection: Joi.object(),
     phdthesis: Joi.object(),
-    masterthesis: Joi.object(),
+    mastersthesis: Joi.object(),
     www: Joi.object(),
     person: personSchema,
     data: Joi.object(),
