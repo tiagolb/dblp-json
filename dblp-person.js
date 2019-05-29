@@ -18,11 +18,9 @@ class DBLPPerson {
    * parser at DBLPRequest;
    * @return {object} The DBLPPerson object
    */
-  constructor(rawJSON, dropKeys, keyTranslation) {
+  constructor(rawJSON) {
     // Keep the rawJSON object from the parser
     this.rawJSON = rawJSON;
-    this.dropKeys = dropKeys;
-    this.keyTranslation = keyTranslation;
 
     // if the object is according to the defined schema
     const validation = validDBLPSchema(this.rawJSON);
@@ -151,30 +149,10 @@ class DBLPPerson {
           paper.type = pubKey;
 
           // Iterate over every key in the paper object
-          // and check which keys to drop
-          Object.keys(paper).forEach((paperKey) => {
-            // Check if dropKey list and keyTranslation object exists
-            if (this.dropKeys &&
-                this.dropKeys[pubKey] &&
-                this.dropKeys[pubKey].indexOf(paperKey) > -1) {
-              delete paper[paperKey];
-            }
-          });
-
-          // Iterate over every key in the paper object
           // and copy it for the publication object
           // apply translations if required
-          Object.keys(paper).forEach((paperKey) => {
-            const oldKey = paperKey;
-            let newKey = paperKey;
-            // Check if key needs translation
-            if (this.keyTranslation) {
-              const translations = Object.keys(this.keyTranslation);
-              if (translations && translations.indexOf(paperKey) > -1) {
-                newKey = this.keyTranslation[paperKey];
-              }
-            }
-            publication[newKey] = paper[oldKey];
+          Object.keys(paper).forEach((paperKey) => {            
+            publication[paperKey] = paper[paperKey];
           });
         });
 

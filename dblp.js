@@ -26,8 +26,6 @@ class DBLP {
       mergeAttrs: true,
       explicitArray: false,
     };
-    this.dropKeys = null;
-    this.keyTranslation = null;
   }
 
   /**
@@ -46,7 +44,7 @@ class DBLP {
       const url = this.nameBaseURL + xml;
 
       // Get the data in the url
-      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error(`[DBLP getByName] Bad request - check requested user name - ${url}`));
@@ -66,7 +64,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error(`[DBLP getByPID] Bad request - check requested PID - ${url}`));
@@ -90,7 +88,7 @@ class DBLP {
       const url = `${this.pidBaseURL}/${pid}.xml`;
 
       // Get the data in the url
-      DBLP.get(url, this.options, this.dropKeys, this.keyTranslation).then((result) => {
+      DBLP.get(url, this.options).then((result) => {
         resolve(result);
       }, () => {
         reject(new Error(`[DBLP getByHomepage] Bad request - check requested homepage - ${url}`));
@@ -103,7 +101,7 @@ class DBLP {
    * @param  {string} url The url that points to the XML file
    * @return {object} DBLPPerson object
    */
-  static get(url, parseOptions, dropKeys, keyTranslation) {
+  static get(url, parseOptions) {
     return new Promise((resolve, reject) => {
       request(url, (requestError, response, body) => {
         // Check response status code
@@ -116,7 +114,7 @@ class DBLP {
             try {
               // console.log(JSON.stringify(xml, null, 2));
               // Create a DBLPPerson object from the raw json
-              const dblpp = new DBLPPerson(xml, dropKeys, keyTranslation);
+              const dblpp = new DBLPPerson(xml);
               resolve(dblpp);
             } catch (e) {
               console.error(e);
