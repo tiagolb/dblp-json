@@ -48,31 +48,34 @@ describe('Checking DBLP functions with invalid input', () => {
   test('Checking DBLP.get with invalid URI', async () => {
     const url = 'google.com';
     return expect(DBLP.get(url)).rejects
-      .toThrow('[DBLP get] Bad request - check requested URI.');
+      .toThrow(`[DBLP get] Bad request - check requested URI - ${url}`);
   });
 
   test('Checking DBLP.get with wrong URL', async () => {
     const url = 'https://dblp.org/pers/xx/b/Tiago:Brito.xml';
     return expect(DBLP.get(url)).rejects
-      .toThrow('[DBLP get] Bad request - check requested URI.');
+      .toThrow(`[DBLP get] Bad request - check requested URI - ${url}`);
   });
 
   test('Checking DBLP.getByName with non-existing user', async () => {
     const dblp = new DBLP();
+    const url = 'https://dblp.org/pers/xx/g/Google:Google.xml';
     return expect(dblp.getByName('Google', 'Google')).rejects
-      .toThrow('[DBLP getByName] Bad request - check requested user name.');
+      .toThrow(`[DBLP getByName] Bad request - check requested user name - ${url}`);
   });
 
   test('Checking DBLP.getByHomepage with wrong homepage', async () => {
     const dblp = new DBLP();
+    const url = 'http://dblp.org/pid//undefined/undefined.xml';
     return expect(dblp.getByHomepage('google.com')).rejects
-      .toThrow('[DBLP getByHomepage] Bad request - check requested homepage.');
+      .toThrow(`[DBLP getByHomepage] Bad request - check requested homepage - ${url}`);
   });
 
   test('Checking DBLP.getByPID with wrong PID', async () => {
     const dblp = new DBLP();
+    const url = 'http://dblp.org/pid//google.com.xml';
     return expect(dblp.getByPID('google.com')).rejects.
-      toThrow('[DBLP getByPID] Bad request - check requested PID.');
+      toThrow(`[DBLP getByPID] Bad request - check requested PID - ${url}`);
   });
 });
 
