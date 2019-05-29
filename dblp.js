@@ -20,7 +20,7 @@ class DBLP {
    */
   constructor() {
     this.nameBaseURL = 'https://dblp.org/pers/xx/';
-    this.pidBaseURL = 'http://dblp.org/pid/';
+    this.pidBaseURL = 'http://dblp.org/pid';
     this.options = {
       charkey: '$value',
       mergeAttrs: true,

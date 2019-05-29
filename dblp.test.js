@@ -66,14 +66,14 @@ describe('Checking DBLP functions with invalid input', () => {
 
   test('Checking DBLP.getByHomepage with wrong homepage', async () => {
     const dblp = new DBLP();
-    const url = 'http://dblp.org/pid//undefined/undefined.xml';
+    const url = 'http://dblp.org/pid/undefined/undefined.xml';
     return expect(dblp.getByHomepage('google.com')).rejects
       .toThrow(`[DBLP getByHomepage] Bad request - check requested homepage - ${url}`);
   });
 
   test('Checking DBLP.getByPID with wrong PID', async () => {
     const dblp = new DBLP();
-    const url = 'http://dblp.org/pid//google.com.xml';
+    const url = 'http://dblp.org/pid/google.com.xml';
     return expect(dblp.getByPID('google.com')).rejects.
       toThrow(`[DBLP getByPID] Bad request - check requested PID - ${url}`);
   });
