@@ -118,6 +118,7 @@ class DBLP {
               const dblpp = new DBLPPerson(xml, dropKeys, keyTranslation);
               resolve(dblpp);
             } catch (e) {
+              console.error(e);
               reject(e);
             }
           });
