@@ -88,7 +88,7 @@ const rSchema = Joi.array().items(
     'book',
     'incollection',
     'phdthesis',
-    'masterthesis',
+    'mastersthesis',
     'www',
     'person',
     'data',

@@ -114,6 +114,7 @@ class DBLP {
           // Parse XML
           parser.parseString(body, (parseError, xml) => {
             try {
+              // console.log(JSON.stringify(xml, null, 2));
               // Create a DBLPPerson object from the raw json
               const dblpp = new DBLPPerson(xml, dropKeys, keyTranslation);
               resolve(dblpp);
