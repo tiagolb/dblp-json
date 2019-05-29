@@ -129,39 +129,6 @@ class DBLP {
       });
     });
   }
-
-  /**
-   * Function that lets developers set charkey option for xml2js
-   * @param  {string} charkey xml2js charkey option
-   */
-  // setCharkey(charkey) {
-  //   delete this.options.charkey;
-  //   this.options.charkey = charkey;
-  // }
-
-  /**
-   * Function that lets developers set some keys to be dropped before return
-   * @param  {string} type
-   * @param  {list} keyList List of keys (strings) to drop
-   */
-  setDropKeys(type, keyList) {
-    if (!this.dropKeys) {
-      this.dropKeys = {};
-    }
-    this.dropKeys[type] = keyList;
-  }
-
-  /**
-   * Function that lets developers set some keys to be dropped before return
-   * @param  {string} type
-   * @param  {object} keyTranslationObject Object of map between old key to new key name
-   */
-  setKeyTranslation(keyTranslationObject) {
-    if (!this.keyTranslation) {
-      this.keyTranslation = {};
-    }
-    this.keyTranslation = keyTranslationObject;
-  }
 }
 
 module.exports = DBLP;
