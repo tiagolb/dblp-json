@@ -93,7 +93,7 @@ const rSchema = Joi.array().items(
     'person',
     'data',
   ).required(),
-).required();
+).single().required();
 
 
 /**

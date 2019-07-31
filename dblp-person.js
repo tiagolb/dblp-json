@@ -27,7 +27,7 @@ class DBLPPerson {
     if (validation.error === null) {
       this.dblpperson = rawJSON.dblpperson;
       this.person = DBLPPerson.getFirstElement(this.dblpperson.person);
-      this.r = this.dblpperson.r;
+      this.r = util.isArray(this.dblpperson.r) ? this.dblpperson.r : [this.dblpperson.r];
       this.coauthors = this.dblpperson.coauthors;
     } else {
       throw new Error(`[DBLPPerson constructor] Schema error - ${validation.error}`);
